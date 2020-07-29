@@ -1,0 +1,131 @@
+MongoDB Enterprise atlas-myzw1f-shard-0:PRIMARY> show dbs
+admin  0.000GB
+local  4.402GB
+
+MongoDB Enterprise atlas-myzw1f-shard-0:PRIMARY> use FirstDatabase
+switched to db FirstDatabase
+
+MongoDB Enterprise atlas-myzw1f-shard-0:PRIMARY> db.users.insertOne({name: 'Tahmid', age: 23})
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("5f2145fef6ee8b19af7055bf")
+}
+
+MongoDB Enterprise atlas-myzw1f-shard-0:PRIMARY> show dbs
+FirstDatabase  0.000GB
+admin          0.000GB
+local          4.402GB
+
+MongoDB Enterprise atlas-myzw1f-shard-0:PRIMARY> show collections
+users
+
+MongoDB Enterprise atlas-myzw1f-shard-0:PRIMARY> db.users.find()
+{ "_id" : ObjectId("5f2145fef6ee8b19af7055bf"), "name" : "Tahmid", "age" : 23 }
+
+MongoDB Enterprise atlas-myzw1f-shard-0:PRIMARY> db.users.insertMany([{name: 'Abul Mia', age: 25}, {name: 'Kabul Mia', age: 27, favorite_color: 'red'}])
+{
+        "acknowledged" : true,
+        "insertedIds" : [
+                ObjectId("5f21485df6ee8b19af7055c0"),
+                ObjectId("5f21485df6ee8b19af7055c1")
+        ]
+}
+
+MongoDB Enterprise atlas-myzw1f-shard-0:PRIMARY> db.users.find()
+{ "_id" : ObjectId("5f2145fef6ee8b19af7055bf"), "name" : "Tahmid", "age" : 23 }
+{ "_id" : ObjectId("5f21485df6ee8b19af7055c0"), "name" : "Abul Mia", "age" : 25 }
+{ "_id" : ObjectId("5f21485df6ee8b19af7055c1"), "name" : "Kabul Mia", "age" : 27, "favorite_color" : "red" }
+
+MongoDB Enterprise atlas-myzw1f-shard-0:PRIMARY> db.users.insertOne({name: 'Andrew', age: 23, address: {street: '23/habijabi', city: 'Dhaka'}})
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("5f214922f6ee8b19af7055c2")
+}
+
+MongoDB Enterprise atlas-myzw1f-shard-0:PRIMARY> db.users.find()
+{ "_id" : ObjectId("5f2145fef6ee8b19af7055bf"), "name" : "Tahmid", "age" : 23 }
+{ "_id" : ObjectId("5f21485df6ee8b19af7055c0"), "name" : "Abul Mia", "age" : 25 }
+{ "_id" : ObjectId("5f21485df6ee8b19af7055c1"), "name" : "Kabul Mia", "age" : 27, "favorite_color" : "red" }
+{ "_id" : ObjectId("5f214922f6ee8b19af7055c2"), "name" : "Andrew", "age" : 23, "address" : { "street" : "23/habijabi", "city" : "Dhaka" } }
+
+MongoDB Enterprise atlas-myzw1f-shard-0:PRIMARY> db.users.find({age: 25})
+{ "_id" : ObjectId("5f21485df6ee8b19af7055c0"), "name" : "Abul Mia", "age" : 25 }
+
+MongoDB Enterprise atlas-myzw1f-shard-0:PRIMARY> db.users.find({age: {$lt: 25}})
+{ "_id" : ObjectId("5f2145fef6ee8b19af7055bf"), "name" : "Tahmid", "age" : 23 }
+{ "_id" : ObjectId("5f214922f6ee8b19af7055c2"), "name" : "Andrew", "age" : 23, "address" : { "street" : "23/habijabi", "city" : "Dhaka" } }
+
+MongoDB Enterprise atlas-myzw1f-shard-0:PRIMARY> db.users.find({age: {$gt: 25}})
+{ "_id" : ObjectId("5f21485df6ee8b19af7055c1"), "name" : "Kabul Mia", "age" : 27, "favorite_color" : "red" }
+
+MongoDB Enterprise atlas-myzw1f-shard-0:PRIMARY> db.users.insertOne({name: 'Babul Mia', age: 28})
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("5f214aa2f6ee8b19af7055c3")
+}
+
+MongoDB Enterprise atlas-myzw1f-shard-0:PRIMARY> db.users.find()
+{ "_id" : ObjectId("5f2145fef6ee8b19af7055bf"), "name" : "Tahmid", "age" : 23 }
+{ "_id" : ObjectId("5f21485df6ee8b19af7055c0"), "name" : "Abul Mia", "age" : 25 }
+{ "_id" : ObjectId("5f21485df6ee8b19af7055c1"), "name" : "Kabul Mia", "age" : 27, "favorite_color" : "red" }
+{ "_id" : ObjectId("5f214922f6ee8b19af7055c2"), "name" : "Andrew", "age" : 23, "address" : { "street" : "23/habijabi", "city" : "Dhaka" } }
+{ "_id" : ObjectId("5f214aa2f6ee8b19af7055c3"), "name" : "Babul Mia", "age" : 28 }
+
+MongoDB Enterprise atlas-myzw1f-shard-0:PRIMARY> db.users.find({"address.city": 'Dhaka'})
+{ "_id" : ObjectId("5f214922f6ee8b19af7055c2"), "name" : "Andrew", "age" : 23, "address" : { "street" : "23/habijabi", "city" : "Dhaka" } }
+
+MongoDB Enterprise atlas-myzw1f-shard-0:PRIMARY> db.users.update({name: 'Babul Mia'}, {$set: {age: 30}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+
+MongoDB Enterprise atlas-myzw1f-shard-0:PRIMARY> db.users.find()
+{ "_id" : ObjectId("5f2145fef6ee8b19af7055bf"), "name" : "Tahmid", "age" : 23 }
+{ "_id" : ObjectId("5f21485df6ee8b19af7055c0"), "name" : "Abul Mia", "age" : 25 }
+{ "_id" : ObjectId("5f21485df6ee8b19af7055c1"), "name" : "Kabul Mia", "age" : 27, "favorite_color" : "red" }
+{ "_id" : ObjectId("5f214922f6ee8b19af7055c2"), "name" : "Andrew", "age" : 23, "address" : { "street" : "23/habijabi", "city" : "Dhaka" } }
+{ "_id" : ObjectId("5f214aa2f6ee8b19af7055c3"), "name" : "Babul Mia", "age" : 30 }
+
+MongoDB Enterprise atlas-myzw1f-shard-0:PRIMARY> db.users.update({name: 'Babul Mia'}, {age: 30})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+
+MongoDB Enterprise atlas-myzw1f-shard-0:PRIMARY> db.users.find()
+{ "_id" : ObjectId("5f2145fef6ee8b19af7055bf"), "name" : "Tahmid", "age" : 23 }
+{ "_id" : ObjectId("5f21485df6ee8b19af7055c0"), "name" : "Abul Mia", "age" : 25 }
+{ "_id" : ObjectId("5f21485df6ee8b19af7055c1"), "name" : "Kabul Mia", "age" : 27, "favorite_color" : "red" }
+{ "_id" : ObjectId("5f214922f6ee8b19af7055c2"), "name" : "Andrew", "age" : 23, "address" : { "street" : "23/habijabi", "city" : "Dhaka" } }
+{ "_id" : ObjectId("5f214aa2f6ee8b19af7055c3"), "age" : 30 }
+
+MongoDB Enterprise atlas-myzw1f-shard-0:PRIMARY> db.users.deleteOne({name: 'Tahmid'})
+{ "acknowledged" : true, "deletedCount" : 1 }
+
+MongoDB Enterprise atlas-myzw1f-shard-0:PRIMARY> db.users.find()
+{ "_id" : ObjectId("5f21485df6ee8b19af7055c0"), "name" : "Abul Mia", "age" : 25 }
+{ "_id" : ObjectId("5f21485df6ee8b19af7055c1"), "name" : "Kabul Mia", "age" : 27, "favorite_color" : "red" }
+{ "_id" : ObjectId("5f214922f6ee8b19af7055c2"), "name" : "Andrew", "age" : 23, "address" : { "street" : "23/habijabi", "city" : "Dhaka" } }
+{ "_id" : ObjectId("5f214aa2f6ee8b19af7055c3"), "age" : 30 }
+
+MongoDB Enterprise atlas-myzw1f-shard-0:PRIMARY> db.users.insertMany([{name: 'Rony', age: 21}, {name: 'Jony'}])
+{
+        "acknowledged" : true,
+        "insertedIds" : [
+                ObjectId("5f214fdbf6ee8b19af7055c4"),
+                ObjectId("5f214fdbf6ee8b19af7055c5")
+        ]
+}
+
+MongoDB Enterprise atlas-myzw1f-shard-0:PRIMARY> db.users.find()
+{ "_id" : ObjectId("5f21485df6ee8b19af7055c0"), "name" : "Abul Mia", "age" : 25 }
+{ "_id" : ObjectId("5f21485df6ee8b19af7055c1"), "name" : "Kabul Mia", "age" : 27, "favorite_color" : "red" }
+{ "_id" : ObjectId("5f214922f6ee8b19af7055c2"), "name" : "Andrew", "age" : 23, "address" : { "street" : "23/habijabi", "city" : "Dhaka" } }
+{ "_id" : ObjectId("5f214aa2f6ee8b19af7055c3"), "age" : 30 }
+{ "_id" : ObjectId("5f214fdbf6ee8b19af7055c4"), "name" : "Rony", "age" : 21 }
+{ "_id" : ObjectId("5f214fdbf6ee8b19af7055c5"), "name" : "Jony" }
+
+
+MongoDB Enterprise atlas-myzw1f-shard-0:PRIMARY> db.users.deleteMany({age: {$gt: 25}})
+{ "acknowledged" : true, "deletedCount" : 2 }
+
+MongoDB Enterprise atlas-myzw1f-shard-0:PRIMARY> db.users.find()
+{ "_id" : ObjectId("5f21485df6ee8b19af7055c0"), "name" : "Abul Mia", "age" : 25 }
+{ "_id" : ObjectId("5f214922f6ee8b19af7055c2"), "name" : "Andrew", "age" : 23, "address" : { "street" : "23/habijabi", "city" : "Dhaka" } }
+{ "_id" : ObjectId("5f214fdbf6ee8b19af7055c4"), "name" : "Rony", "age" : 21 }
+{ "_id" : ObjectId("5f214fdbf6ee8b19af7055c5"), "name" : "Jony" }
